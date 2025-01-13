@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 30px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color:rgb(200, 228, 205);
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color:rgb(96, 103, 97);
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ced4da;
+        }
+
+        .dashboard {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            color:rgb(184, 235, 191);
+        }
+
+        .card p {
+            font-size: 24px;
+            margin: 5px 0;
+            font-weight: bold;
+            color: #212529;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgb(144, 188, 150);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solidrgb(190, 193, 196);
+        }
+
+        th {
+            background-color:#d4e7d7;
+            color: white;
+        }
+
+        td {
+            color:rgb(155, 231, 165);
+            font-size: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color:rgb(224, 232, 239);
+        }
+
+        .status {
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+        footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 240px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/upload">Upload</a></li>
+            <li><a href="/customize">Customize</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+        </ul>
+    </nav>
+    <h1 style="color:rgb(94, 104, 97);position:relative;left:30px;">Dashboard</h1>
+    <main>
+        <section class="dashboard">
+            <div class="card-container">
+                <div class="card">
+                    <h3>Total Sent</h3>
+                    <p><span id="totalSent">0</span></p>
+                </div>
+                <div class="card">
+                    <h3>Emails Pending</h3>
+                    <p><span id="emailsPending">0</span></p>
+                </div>
+                <div class="card">
+                    <h3>Emails Failed</h3>
+                    <p><span id="emailsFailed">0</span></p>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Delivered</th>
+                        <th>Opened</th>
+                        <th>Clicked</th>
+                        <th>Bounced</th>
+                    </tr>
+                </thead>
+                <tbody id="status-table">
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        &copy; 2025 Email Customization Platform. All Rights Reserved.
+    </footer>
+
+    <script>
+        
+        const eventSource = new EventSource('/sse');
+
+        eventSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+
+            
+            document.getElementById('totalSent').innerText = data.metrics.total_sent;
+            document.getElementById('emailsPending').innerText = data.metrics.emails_pending;
+            document.getElementById('emailsFailed').innerText = data.metrics.emails_failed;
+
+        
+            const table = document.getElementById('status-table');
+            table.innerHTML = '';
+            for (const [email, status] of Object.entries(data.statuses)) {
+                table.innerHTML += `
+                    <tr>
+                        <td>${email}</td>
+                        <td>${status.delivered ? '✔' : '✘'}</td>
+                        <td>${status.open ? '✔' : '✘'}</td>
+                        <td>${status.click ? '✔' : '✘'}</td>
+                        <td>${status.bounce ? '✔' : '✘'}</td>
+                    </tr>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>

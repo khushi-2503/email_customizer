@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d4e7d7; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #d4e7d7;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: rgb(121, 126, 129);
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .upload-container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .upload-area {
+            border: 3px dashed #a68960; 
+            border-radius: 10px;
+            width: 100%; 
+            height: 250px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #555;
+            cursor: pointer;
+            background-color: #fdfaf5;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background-color: #f3e8d9;
+            border-color: #876a50; 
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .google-sheets {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .google-sheets button {
+            padding: 10px 20px;
+            background-color: rgb(103, 109, 114);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .google-sheets button:hover {
+            background-color: #005a8a;
+        }
+
+        footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/upload">Upload</a></li>
+                <li><a href="/customize">Customize</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="upload-container">
+            <h2>Upload Your File</h2>
+            <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+                <label class="upload-area" for="fileInput">
+                    <p>Drag and drop files here or click to upload</p>
+                    <input type="file" id="fileInput" name="file" accept=".csv" required>
+                </label>
+            </form>
+
+            <div class="google-sheets">
+                <form action="/upload" method="POST">
+                    <button type="submit" name="google_sheet">Connect Google Sheets</button>
+                    <button type="submit" id="submitBtn" style="background:grey">Upload</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 Email Customization Platform. All Rights Reserved.
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadForm = document.getElementById('uploadForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        fileInput.addEventListener('change', () => {
+            console.log(`Selected file: ${fileInput.files[0].name}`);
+            uploadForm.submit();
+        });
+    </script>
+</body>
+</html>

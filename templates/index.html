@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CustomMailPro</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #444;
+        }
+        header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            background-color: #d4e7d7;
+            padding: 10px 5px;
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center; 
+        }
+        nav .logo img {
+            height: 140px;
+            width: auto;
+            margin-right: 5px;
+        }
+
+        nav .links {
+            display: flex;
+            justify-content: center; 
+            gap: 50px; 
+            flex-grow: 2;
+        }
+
+        nav .links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+        }
+
+        nav .links a:hover {
+            color:rgb(180, 192, 205);
+        }
+
+        nav .links a:last-child {
+            background-color: rgb(114, 119, 126); 
+            color: #455643;
+            padding: 10px 20px;
+            border-radius: 60px; 
+            text-align: right;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            position: relative; 
+            right: -30px; 
+            top: -9px;
+
+        }
+
+        nav .links a:last-child:hover {
+            background-color: rgb(180, 192, 205); 
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 600px;
+            background-color: #d4e7d7;
+            text-align: center;
+            background-image: url('bac-removebg-preview.png');
+            background-size: 25%; 
+            background-position: right;
+            background-repeat: no-repeat; 
+            
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #455643;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .login-btn {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 0px;
+        }
+        .login-btn:hover {
+            background-color: #005a8a;
+        }
+
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            background-color: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+        }
+
+        .popup button {
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #005a8a;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='image2-removebg-preview.png') }}" alt="Logo">
+        </div>
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="/upload">Upload</a>
+            <a href="/customize">Customize</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/login">Login</a>
+        </div>
+    </nav>
+    
+    <div class="hero" style="background-image: url('{{ url_for('static', filename='bac-removebg-preview.png') }}');">
+        <img src="{{ url_for('static', filename='img3-removebg-preview.png') }}" style="width: 20%; position: relative; left: -60px;top:-30px;" alt="Logo">
+
+
+        <h1 style="position:relative;left:-170px;">Welcome to CustomMailPro</h1>
+    </div>
+
+
+    <div class="grid">
+        <div class="card" onclick="showPopup()">
+            <img src="{{ url_for('static', filename='img4-removebg-preview.png') }}" style="width: 40%;" alt="New Feature">
+            <h2>New Features</h2>
+            <p>Explore the latest updates.</p>
+        </div>
+        <div class="card"  onclick="window.location.href='/upload'">
+            <img src="{{ url_for('static', filename='img3-removebg-preview (1).png') }}" style="width: 40%;" alt="Upload">
+            <h2>Upload Files</h2>
+            <p>Upload your contact list easily.</p>
+        </div>
+        <div class="card"  onclick="window.location.href='/customize'">
+            <img src="{{ url_for('static', filename='img3-removebg-preview (2).png') }}" style="width: 40%;" alt="Customize">
+            <h2>Customize Emails</h2>
+            <p>Create and edit emails.</p>
+        </div>
+        <div class="card" onclick="window.location.href='/dashboard'"> 
+            <img src="{{ url_for('static', filename='img3.png') }}"  style="width: 40%;" alt="Analytics">
+            <h2>View Analytics</h2>
+            <p>Track email performance in real-time.</p>
+        </div>
+    </div>
+
+    <div class="overlay" onclick="hidePopup()"></div>
+    <div class="popup" id="popup">
+        <h2>Latest Updates</h2>
+        <p>Here are the latest features and updates of CustomMailPro.</p>
+        <button onclick="hidePopup()">Close</button>
+    </div>
+
+
+    <footer>
+        &copy; 2025 Email Customization Platform. All Rights Reserved.
+    </footer>
+
+    <script>
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.querySelector('.overlay').style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.querySelector('.overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

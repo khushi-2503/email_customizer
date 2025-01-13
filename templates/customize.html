@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Customization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #d4e7d7, rgb(213, 234, 209));
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 100px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-section {
+            background: linear-gradient(to bottom, rgb(157, 212, 162), rgb(108, 174, 131));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .image-section img {
+            width: 140px;
+            margin-bottom: 20px;
+        }
+
+        .image-section h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        h2 {
+            color: rgb(57, 107, 56);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .email-block {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #f7f7f7;
+        }
+
+        .email-block h3 {
+            font-size: 18px;
+            color: rgb(57, 107, 56);
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input,
+        textarea,
+        button {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: rgb(62, 95, 62);
+            outline: none;
+        }
+
+        button {
+            background: rgb(162, 215, 168);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: rgb(132, 145, 136);
+        }
+
+        .navbar {
+            background: linear-gradient(to bottom, #d4e7d7, rgb(213, 234, 209));
+            color: rgb(91, 95, 91);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .navbar ul li {
+            margin: 0 20px;
+        }
+
+        .navbar ul li a {
+            color: rgb(63, 66, 63);
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .navbar ul li a:hover {
+            color: #fce4ec;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/upload">Upload</a></li>
+            <li><a href="/customize">Customize</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="image-section">
+            <img src="{{ url_for('static', filename='img5-removebg-preview.png') }}" alt="Logo">
+            <h1>Email Customization</h1>
+        </div>
+        
+        <h2>Customize Your Emails</h2>
+        <form method="POST" action="/customize">
+            {% for email in emails %}
+            <div class="email-block">
+                <h3>Customize Email for {{ email.name }} ({{ email.email }})</h3>
+
+                
+                <label for="prompt_{{ loop.index0 }}">Prompt:</label>
+                <textarea name="prompt_{{ loop.index0 }}" id="prompt_{{ loop.index0 }}" rows="4" placeholder="Provide a prompt for email content"></textarea>
+
+            
+                <label for="subject_{{ loop.index0 }}">Subject:</label>
+                <input type="text" name="subject_{{ loop.index0 }}" id="subject_{{ loop.index0 }}" placeholder="Enter subject">
+
+        
+                <label for="body_{{ loop.index0 }}">Body Template:</label>
+                <textarea name="body_{{ loop.index0 }}" id="body_{{ loop.index0 }}" rows="4" placeholder="Body template, use placeholders like {name}, {email}, etc."></textarea>
+
+                
+                <label for="schedule_time_{{ loop.index0 }}">Schedule Time:</label>
+                <input type="datetime-local" name="schedule_time_{{ loop.index0 }}" id="schedule_time_{{ loop.index0 }}" required>
+            </div>
+            {% endfor %}
+            <button type="submit">Schedule Emails</button>
+        </form>
+    </div>
+</body>
+</html>
