@@ -1,6 +1,6 @@
 Flask==2.2.3
 requests==2.31.0
-pandas==1.5.3
+pandas==2.2.3
 msal==1.23.0
 Werkzeug==2.2.3
 google-api-python-client==2.102.0
